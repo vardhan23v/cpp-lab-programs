@@ -1,0 +1,6 @@
+# Binaries and compiled files
+*.o
+*.out
+*.exe
+*.dSYM/
+.DS_Store
