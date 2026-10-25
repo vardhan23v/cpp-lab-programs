@@ -1,23 +1,32 @@
-# C++ Lab Programs 1–8: Code and Explanations
+# C++ Lab Programs 1–8: Comprehensive Code, Explanations & Expected Output
 
-This README documents the eight programs supplied in the chat. The code is reproduced in formatted C++ blocks, followed by simple explanations and viva points.
+This README documents the eight standard C++ laboratory programs. Each program includes:
+- **Aim & Concept:** Core objective and OOP concept being demonstrated.
+- **Complete Formatted Source Code:** Clean, standard-compliant C++ code.
+- **Detailed Step-by-Step Explanation:** Line-by-line / section-by-section breakdown of logic, syntax, and execution flow.
+- **Sample Input & Expected Output:** Realistic terminal I/O walkthroughs so you know exactly what prints on screen.
+- **Viva Questions & Key Takeaways:** Essential concepts frequently asked by examiners.
 
-## Contents
-1. Bank Account
-2. Complex Number: Function Overloading and Friend Functions
-3. Time Addition: Objects as Arguments
-4. Employee: Array of Objects
-5. Constructors in a Derived Class
-6. Constructor Overloading
-7. Dynamic Constructor and String Concatenation
-8. Hierarchical Inheritance
+---
+
+## Table of Contents
+1. [Program 1: Bank Account (Class, Data Abstraction & Encapsulation)](#1-bank-account)
+2. [Program 2: Complex Number Addition (Function Overloading & Friend Functions)](#2-complex-number-function-overloading-and-friend-functions)
+3. [Program 3: Time Addition (Passing Objects as Arguments)](#3-time-addition-objects-as-arguments)
+4. [Program 4: Employee Database (Array of Objects)](#4-employee-array-of-objects)
+5. [Program 5: Constructors in Derived Classes (Multiple Inheritance)](#5-constructors-in-a-derived-class)
+6. [Program 6: Constructor Overloading (Default, Parameterized, Copy & Default Arguments)](#6-constructor-overloading)
+7. [Program 7: Dynamic Constructors & String Concatenation (`new`, `delete`, C-Strings)](#7-dynamic-constructor-and-string-concatenation)
+8. [Program 8: Student Classification (Hierarchical Inheritance)](#8-hierarchical-inheritance)
+9. [Quick Viva Cheat Sheet](#quick-viva-cheat-sheet)
 
 ---
 
 ## 1. Bank Account
 
-**Aim:** Read account details, deposit money, withdraw money, and display the balance.
+**Aim:** Create a class to represent a bank account, read customer details, perform deposit and withdrawal operations with validation, and display the account balance.
 
+### Source Code
 ```cpp
 #include <iostream>
 using namespace std;
@@ -85,22 +94,59 @@ int main()
 }
 ```
 
-**Explanation**
-- `BankAccount` is a class; `name`, `accno`, and `balance` are its data members.
-- `read()` gets account details; `print()` displays them.
-- `deposit()` adds the entered amount to `balance`.
-- `withdraw()` subtracts the amount only if the balance is sufficient.
-- `put_balance()` prints the updated balance.
-- `BankAccount b1;` creates an object; calls such as `b1.deposit()` invoke its member functions.
+### Detailed Explanation
+1. **Class and Encapsulation:**
+   - The class `BankAccount` bundles data (`name`, `accno`, `balance`) and the member functions that operate on that data.
+   - By default in C++, members declared before any access specifier are **private**. Therefore, `name`, `accno`, and `balance` cannot be directly manipulated outside the class, preventing unauthorized modification (data hiding).
+2. **Member Functions (`public:`):**
+   - `read()`: Prompts the user to enter customer name, account number, and initial balance via `cin`.
+   - `print()`: Displays the basic account details.
+   - `deposit()`: Reads a positive deposit amount and increments `balance = balance + amount`.
+   - `withdraw()`: Checks if requested withdrawal `amount <= balance`. If true, deducts the amount; otherwise, prints `"Insufficient balance"` leaving the balance untouched.
+   - `put_balance()`: Outputs the current updated balance.
+3. **Execution Flow in `main()`:**
+   - `BankAccount b1;` creates an object of class `BankAccount` on the stack.
+   - `b1.read()` collects initial data.
+   - `b1.deposit()` deposits cash into `b1`.
+   - `b1.withdraw()` tests validation and processes withdrawal.
 
-**Viva:** A class groups data and functions. An object is an instance of a class. Members before `public:` are private by default.
+### Sample Input & Expected Output
+```text
+Enter name: Rahul
+Enter account number: 10245
+Enter balance: 5000
+
+Name: Rahul
+Account Number: 10245
+Balance: 5000
+Enter amount to deposit: 2000
+
+Current Balance: 7000
+Enter amount to withdraw: 3000
+
+Current Balance: 4000
+```
+
+*(If withdrawal exceeds balance, e.g., withdrawing 9000 when balance is 7000:)*
+```text
+Enter amount to withdraw: 9000
+
+Insufficient balance
+Current Balance: 7000
+```
+
+### Viva Points
+- **What is Encapsulation?** Wrapping data members and member functions into a single unit (class).
+- **Default access specifier:** Members in a C++ `class` are `private` by default, whereas in a `struct` they are `public`.
+- **Limitation to note:** `cin >> name` stops reading at whitespace (e.g., entering "John Doe" only reads "John").
 
 ---
 
 ## 2. Complex Number: Function Overloading and Friend Functions
 
-**Aim:** Add an integer to a complex number or add two complex numbers using overloaded `ADD()` functions.
+**Aim:** Perform addition of an integer to a complex number and addition of two complex numbers using non-member overloaded friend functions.
 
+### Source Code
 ```cpp
 #include <iostream>
 using namespace std;
@@ -160,22 +206,50 @@ int main()
 }
 ```
 
-**Explanation**
-- `r` is the real part and `i` is the imaginary part.
-- `read()` inputs both parts; `disp()` prints them.
-- `ADD(int x, COMPLEX c)` adds an integer to the real part and preserves the imaginary part.
-- `ADD(COMPLEX c1, COMPLEX c2)` adds corresponding real and imaginary parts.
-- The functions are declared `friend`, allowing them to access private members.
-- The same function name with different parameter lists demonstrates **function overloading**.
+### Detailed Explanation
+1. **Representing Complex Numbers:**
+   - `r` represents the real component and `i` represents the imaginary component ($r + i\cdot \text{i}$).
+   - `read()` inputs values for `r` and `i`; `disp()` prints in standard format `r+ii` (e.g., `3+4i`).
+2. **Friend Functions:**
+   - Normal non-member functions cannot access `private` members `r` and `i`.
+   - The declarations `friend COMPLEX ADD(...)` inside `COMPLEX` grant the external `ADD` functions direct access to `r` and `i` of any `COMPLEX` instance.
+3. **Function Overloading:**
+   - Two functions share the identical name `ADD`, but possess distinct parameter signatures:
+     - `ADD(int x, COMPLEX c)`: Adds scalar integer `x` to `c.r`, keeping `c.i` intact.
+     - `ADD(COMPLEX c1, COMPLEX c2)`: Performs vector addition: `c1.r + c2.r` and `c1.i + c2.i`.
+   - The compiler resolves which function to call at compile-time based on the types and order of supplied arguments (compile-time polymorphism).
+4. **Execution Flow in `main()`:**
+   - Reads `c1` (e.g., `2 3`), `c2` (e.g., `4 5`), and scalar integer `a` (e.g., `10`).
+   - `c3 = ADD(a, c2)` yields $(10 + 4) + 5\text{i} = 14 + 5\text{i}$.
+   - `c4 = ADD(c1, c2)` yields $(2 + 4) + (3 + 5)\text{i} = 6 + 8\text{i}$.
+   - All four objects are displayed sequentially.
 
-**Viva:** A friend function is not a member function, but can access private/protected members. Return type alone cannot overload a function. The four `disp()` calls have no labels or line breaks between them, so their output appears joined.
+### Sample Input & Expected Output
+**Sample Input:**
+```text
+2 3
+4 5
+10
+```
+
+**Expected Output:**
+```text
+2+3i4+5i14+5i6+8i
+```
+*(Note: Because the original `disp()` does not output spaces or newline characters (`\n`), the outputs appear concatenated together on the terminal screen).*
+
+### Viva Points
+- **What is a Friend Function?** A non-member function granted privileged access to `private` and `protected` class members.
+- **Can a friend function be invoked with `.` operator?** No, it is not a member function. It is invoked like a regular C function: `ADD(a, b)`.
+- **Rules of Function Overloading:** Functions must differ in their parameter count or argument types; differing only by return type is illegal.
 
 ---
 
 ## 3. Time Addition: Objects as Arguments
 
-**Aim:** Add two times using a member function that accepts two `Time` objects.
+**Aim:** Add two time values (in hours and minutes) by passing objects as arguments to a member function and handling the minutes-to-hours carryover.
 
+### Source Code
 ```cpp
 #include <iostream>
 using namespace std;
@@ -221,28 +295,39 @@ int main()
 }
 ```
 
-**Explanation**
-- `read(h, m)` initializes the object's hours and minutes.
-- `compute(t1, t2)` receives two objects and stores their sum in the calling object, `t3`.
-- Integer division by 60 calculates the extra hour from the combined minutes.
-- `% 60` gives the remaining minutes.
-- Example: `4:40 + 4:40 = 9:20`.
+### Detailed Explanation
+1. **Data Members:**
+   - `hours` and `minutes` represent time.
+2. **Passing Objects as Arguments:**
+   - In `compute(Time t1, Time t2)`, two objects of type `Time` are passed **by value**.
+   - Inside `compute`, `t1.minutes` and `t2.minutes` are accessed directly since member functions of a class can access private members of any object of the same class.
+3. **Carryover Arithmetic Logic:**
+   - `(t1.minutes + t2.minutes) / 60` calculates how many full hours are contributed by total minutes (integer division).
+     - Example: $40 + 40 = 80 \implies 80 / 60 = 1$ hour.
+   - `(t1.minutes + t2.minutes) % 60` calculates remaining minutes using modulus:
+     - Example: $80 \% 60 = 20$ minutes.
+   - `hours = t1.hours + t2.hours + h` sums the base hours plus the carried hour:
+     - Example: $4 + 4 + 1 = 9$ hours.
+   - The result is stored into the calling object (`t3`'s `hours` and `minutes`).
 
-**Expected output**
+### Expected Output
 ```text
 First Time: 4:40
 Second Time: 4:40
 Result: 9:20
 ```
 
-**Viva:** This demonstrates passing objects as arguments. `%` is the modulus operator. The code assumes valid time values.
+### Viva Points
+- **What is Pass by Value for Objects?** Copies of `t1` and `t2` are passed into `compute()`. Changes made to parameters inside the function do not affect the original arguments in caller.
+- **Difference between `/` and `%`:** `/` yields the integer quotient (carried hours), while `%` yields the remainder (leftover minutes).
 
 ---
 
 ## 4. Employee: Array of Objects
 
-**Aim:** Read and display details for multiple employees.
+**Aim:** Define an `Employee` class and manage records for multiple employees using an array of objects.
 
+### Source Code
 ```cpp
 #include <iostream>
 using namespace std;
@@ -289,21 +374,52 @@ int main()
 }
 ```
 
-**Explanation**
-- `Employee` stores a name, employee number, and salary.
-- `Employee e[10]` creates an array of 10 objects.
-- The first loop reads each employee; the second prints each employee.
-- Each `e[i]` is a separate object.
+### Detailed Explanation
+1. **Class Design:**
+   - Data members: `ename` (string/char array), `eno` (integer ID), and `esalary` (float salary).
+   - Member functions `read()` and `print()` handle individual record input and formatted output.
+2. **Array of Objects:**
+   - `Employee e[10];` allocates contiguous memory for 10 distinct `Employee` objects.
+   - Each element `e[i]` contains its own independent copy of `ename`, `eno`, and `esalary`.
+3. **Loop Traversal:**
+   - The user inputs `n` (the count of employees to process, up to 10).
+   - The first `for` loop `(i = 0; i < n; i++)` calls `e[i].read()` to populate each record.
+   - The second `for` loop `(i = 0; i < n; i++)` calls `e[i].print()` to display each record sequentially.
 
-**Viva:** This demonstrates an array of objects. Enter `n` from 1 to 10, because the array has only 10 elements. `cin >> ename` reads a single word only.
+### Sample Input & Expected Output
+**Sample Input:**
+```text
+Enter number of employees: 2
+Enter employee name: Alice
+Enter employee number: 101
+Enter employee salary: 55000.50
+Enter employee name: Bob
+Enter employee number: 102
+Enter employee salary: 62000.00
+```
 
+**Expected Output:**
+```text
+Employee Name: Alice
+Employee Number: 101
+Employee Salary: 55000.5
+Employee Name: Bob
+Employee Number: 102
+Employee Salary: 62000
+```
+
+### Viva Points
+- **What is an Array of Objects?** A collection of multiple objects of the same class stored in contiguous memory locations, indexed from `0` to `size - 1`.
+- **Memory consumption:** Total memory = `number_of_elements * sizeof(Employee)`.
+- **Boundary precaution:** Array size is fixed at `10`; entering $n > 10$ causes array index out-of-bounds (undefined behavior).
 
 ---
 
 ## 5. Constructors in a Derived Class
 
-**Aim:** Demonstrate parameterized base-class constructors and multiple inheritance.
+**Aim:** Demonstrate multiple inheritance and passing arguments from a derived class constructor to base class parameterized constructors using an initialization list.
 
+### Source Code
 ```cpp
 #include <iostream>
 using namespace std;
@@ -372,14 +488,22 @@ int main()
 }
 ```
 
-**Explanation**
-- `Alpha` and `Beta` are base classes; each has a parameterized constructor.
-- `Gama` inherits from both classes, which is multiple inheritance.
-- `: Alpha(x), Beta(y)` is a constructor initializer list that sends values to the base constructors.
-- Construction order is `Alpha`, then `Beta`, then the body of `Gama`.
-- The object stores `10`, `20`, and `30` in `n1`, `n2`, and `n3`.
+### Detailed Explanation
+1. **Multiple Inheritance Architecture:**
+   - `Alpha` and `Beta` are two independent base classes, each holding a `protected` variable (`n1` and `n2`).
+   - `class Gama : public Alpha, public Beta` inherits from both `Alpha` and `Beta`.
+2. **Order of Constructor Invocation:**
+   - In multiple inheritance, base class constructors are executed **in the order they are listed in the class derivation header**, NOT the order in the constructor initializer list:
+     1. `Alpha(x)` is executed first (`cout << "Alpha constructed"`).
+     2. `Beta(y)` is executed second (`cout << "Beta Constructed"`).
+     3. Derived class constructor `Gama` body executes last (`cout << "Gama Constructed"`).
+3. **Constructor Initializer List:**
+   - Syntax: `: Alpha(x), Beta(y)` passes parameter `x` to `Alpha` and `y` to `Beta`.
+   - `n3 = z;` initializes `Gama`'s own data member.
+4. **Member Function Access:**
+   - `g1.putAlpha()`, `g1.putBeta()`, and `g1.putGama()` display `n1: 10`, `n2: 20`, and `n3: 30`.
 
-**Expected output**
+### Expected Output
 ```text
 Alpha constructed
 Beta Constructed
@@ -389,14 +513,18 @@ n2: 20
 n3: 30
 ```
 
-**Viva:** A constructor initializes an object. `protected` members can be accessed by derived classes. Multiple inheritance means one derived class inherits from more than one base class.
+### Viva Points
+- **What is Multiple Inheritance?** When a single derived class inherits from two or more base classes simultaneously.
+- **Destructor execution order:** The reverse of constructor execution order (Derived `~Gama`, then Base `~Beta`, then Base `~Alpha`).
+- **Protected Access Specifier:** Accessible within the defining class and all derived classes, but inaccessible to the outside world.
 
 ---
 
 ## 6. Constructor Overloading
 
-**Aim:** Demonstrate default, parameterized, copy, and default-argument constructors.
+**Aim:** Illustrate constructor overloading using default, parameterized, copy, and default-argument constructors within a single class.
 
+### Source Code
 ```cpp
 #include <iostream>
 using namespace std;
@@ -466,18 +594,22 @@ int main()
 }
 ```
 
-**Explanation**
-- `Sample()` is the default constructor; it initializes all members.
-- `Sample(int, char, double)` is a parameterized constructor.
-- `Sample(Sample &s)` is a copy constructor that copies values from another object.
-- `Sample(int, double, char y = 's')` uses `'s'` when its third argument is omitted.
-- `s1` uses the default constructor, `s2` the three-argument constructor, `s3` the default-argument constructor, and `s4` the copy constructor.
+### Detailed Explanation
+1. **Concept of Constructor Overloading:**
+   - Defining more than one constructor in the same class with different parameter types or counts.
+2. **Breakdown of the 4 Constructors:**
+   - **Default Constructor (`Sample()`):** Takes zero arguments; sets `i = 0`, `c = '\0'`, `d = 0.0`. Invoked by `Sample s1;`.
+   - **Parameterized Constructor (`Sample(int, char, double)`):** Explicitly initializes all three fields with passed arguments `10`, `'a'`, `5.6`. Invoked by `Sample s2(10, 'a', 5.6);`.
+   - **Default-Argument Constructor (`Sample(int x, double z, char y = 's')`):** The third parameter `y` has a default value `'s'`. When invoked with only two arguments `Sample s3(30, 4.54);`, `y` automatically defaults to `'s'`.
+   - **Copy Constructor (`Sample(Sample &s)`):** Accepts a reference to an existing object of the same class. Invoked by `Sample s4(s2);`, which clones all member values from `s2` into `s4`.
+3. **Display:**
+   - Notice that for `s1`, `c` is initialized to the null character `'\0'`, which prints as blank/non-printable on the terminal.
 
-**Expected output**
+### Expected Output
 ```text
 S1:
 i= 0
-c=
+c= 
 f= 0
 S2:
 i= 10
@@ -492,16 +624,18 @@ i= 10
 c= a
 f= 5.6
 ```
-The null character in `s1.c` is generally not visible when printed.
 
-**Viva:** Constructor overloading means multiple constructors with different parameter lists. A copy constructor initializes an object from another object of the same class. A default argument is used when an argument is omitted.
+### Viva Points
+- **Why pass by reference in copy constructor (`Sample &s`)?** If passed by value (`Sample s`), it would require another call to the copy constructor to copy the argument, creating infinite recursion.
+- **What is a Default Argument?** A default value specified in function/constructor parameter list that is used if the caller omits that parameter.
 
 ---
 
 ## 7. Dynamic Constructor and String Concatenation
 
-**Aim:** Allocate string memory dynamically and concatenate strings.
+**Aim:** Demonstrate dynamic memory allocation inside constructors (`new` operator) and perform string concatenation.
 
+### Source Code
 ```cpp
 #include <iostream>
 #include <string.h>
@@ -577,14 +711,25 @@ int main()
 }
 ```
 
-**Explanation**
-- `char *name` points to dynamically allocated character storage.
-- `strlen(s)` counts characters, excluding the null terminator.
-- `new char[length + 1]` allocates enough space for the characters plus `\0`.
-- `strcpy()` copies a string; `strcat()` appends one string to another.
-- `join()` combines the two strings and stores the result in the object on which it is called.
+### Detailed Explanation
+1. **Dynamic Constructor Concept:**
+   - A dynamic constructor allocates memory from free store (heap) dynamically using the `new` operator at runtime when an object is created.
+   - `char *name` is a pointer to dynamically allocated character storage.
+2. **Length and Null Termination:**
+   - `strlen(s)` computes the character length excluding the null terminator `'\0'`.
+   - `new char[length + 1]` reserves additional 1 byte specifically to store the null terminator `'\0'`.
+   - `strcpy(name, s)` copies the string contents into the allocated buffer.
+3. **The `join()` Function:**
+   - Takes two `String` objects `A` and `B`.
+   - Total length is computed: `A.length + B.length`.
+   - Allocates new heap memory: `name = new char[length + 1]`.
+   - Copies `A.name` using `strcpy` and appends `B.name` using `strcat`.
+4. **Program Flow:**
+   - `s1` = `"wel"`, `s2` = `"fare"` $\implies$ `s3` becomes `"welfare"`.
+   - `s1` = `"wel"`, `s4` = `"come"` $\implies$ `s5` becomes `"welcome"`.
+   - `s1` = `"wel"`, `s6` = `"done"` $\implies$ `s7` becomes `"weldone"`.
 
-**Expected output**
+### Expected Output
 ```text
 s1:
 name= wel
@@ -602,18 +747,18 @@ s7:
 name= weldone
 ```
 
-**Viva and code caveats**
-- A dynamic constructor allocates memory during object construction.
-- The empty default constructor leaves `length` and `name` uninitialized. In this example, `s3`, `s5`, and `s7` are populated by `join()` before being displayed.
-- The allocated memory is not released with `delete[]`, so this educational example leaks memory. A modern implementation should manage memory safely.
-- `#include <string.h>` supplies the C-style string functions used here.
+### Viva Points & Memory Management
+- **What is `new` and `delete[]`?** `new` allocates dynamic heap memory; `delete[]` deallocates array memory.
+- **Good practice:** A class utilizing dynamic memory should implement a destructor (`~String() { delete[] name; }`) to prevent memory leaks, and a deep copy constructor.
+- **Why `+ 1` in `new char[length + 1]`?** To hold the null-terminating character `'\0'`, which marks the end of C-style strings.
 
 ---
 
 ## 8. Hierarchical Inheritance
 
-**Aim:** Use one base class (`student`) and two derived classes (`medical` and `engineering`).
+**Aim:** Demonstrate hierarchical inheritance where a single base class (`student`) is inherited by multiple derived classes (`medical` and `engineering`).
 
+### Source Code
 ```cpp
 #include <iostream>
 using namespace std;
@@ -704,30 +849,81 @@ int main()
 }
 ```
 
-**Explanation**
-- `student` stores the common fields `name`, `age`, and `usn`.
-- `medical` and `engineering` both publicly inherit from `student`.
-- `medical` adds `year`; `engineering` adds `sem` and `branch`.
-- The base-class function `getstudent()` reads the common details. Each derived class has its own extra input function and `display()` function.
-- `m1` is a medical student object; `e1` is an engineering student object.
+### Detailed Explanation
+1. **Hierarchical Inheritance Architecture:**
+   - One common base class (`student`) serves as the parent for two separate derived classes (`medical` and `engineering`).
+   - ```
+             [ student ]  (Base)
+             /         \
+            /           \
+     [ medical ]    [ engineering ] (Derived)
+     ```
+2. **Code Reusability:**
+   - Properties common to every student (`name`, `age`, `usn`) and the method to input them (`getstudent()`) are written once inside `student`.
+   - Both `medical` and `engineering` inherit these members without redundant code duplication.
+3. **Specialization:**
+   - `medical` adds specialization member `year` and method `getmedical()`.
+   - `engineering` adds specialization members `sem` and `branch` and method `getengineering()`.
+4. **Protected Members:**
+   - `name`, `age`, and `usn` are `protected` in `student`, which allows derived classes `medical` and `engineering` to directly print them in their respective `display()` functions.
 
-**Viva:** Hierarchical inheritance means two or more derived classes inherit from one base class. `protected` members can be accessed in derived classes.
+### Sample Input & Expected Output
+**Sample Input:**
+```text
+Arun
+21
+101
+3
+Kavya
+19
+205
+4
+CSE
+```
 
-**Code caveats:** The supplied code declares `usn` as `int`; if the USN contains letters, a string or character array is more appropriate. `cin >> name` and `cin >> branch` only read one word.
+**Expected Output:**
+```text
+Enter medical student details
+Enter name
+Enter age
+Enter usn
+Enter year
+Medical student details:
+Name: Arun
+Age: 21
+USN: 101
+Year: 3
+Enter engineering student details
+Enter name
+Enter age
+Enter usn
+Enter sem
+Enter branch
+Engineering student details:
+Name: Kavya
+Age: 19
+USN: 205
+Semester: 4
+Branch: CSE
+```
+
+### Viva Points
+- **What is Hierarchical Inheritance?** An inheritance model where multiple derived classes inherit from a single common base class.
+- **Why use `protected` instead of `private`?** Private members of a base class are not accessible inside derived class member functions; protected members remain accessible to derived classes while staying private to outside code.
 
 ---
 
-## Last-Minute Viva Revision
+## Quick Viva Cheat Sheet
 
-| Program | Main concept | Key line or idea |
-|---|---|---|
-| 1 | Class and member functions | `balance = balance + amount` |
-| 2 | Function overloading and friend functions | Two `ADD()` signatures |
-| 3 | Objects as arguments | `t3.compute(t1, t2)` |
-| 4 | Array of objects | `Employee e[10]` |
-| 5 | Base/derived constructors; multiple inheritance | `: Alpha(x), Beta(y)` |
-| 6 | Constructor overloading | Default, parameterized, copy, default argument |
-| 7 | Dynamic memory and string operations | `new`, `strcpy()`, `strcat()` |
-| 8 | Hierarchical inheritance | `medical` and `engineering` inherit from `student` |
+| Program | Core Concept | Key Syntax / Mechanism | Common Viva Question |
+|---|---|---|---|
+| **1. Bank Account** | Data Encapsulation & Abstraction | `class` with `private` members and `public` methods | Why are data members kept private? (Data security) |
+| **2. Complex Addition** | Friend Functions & Function Overloading | `friend COMPLEX ADD(...)` | Why is friend function used? (Access private data without member semantics) |
+| **3. Time Addition** | Objects as Arguments & Modulus Math | `t3.compute(t1, t2)` with `/ 60` and `% 60` | What is pass-by-value vs pass-by-reference? |
+| **4. Employee** | Array of Objects | `Employee e[10];` in loops | How is memory allocated for an array of objects? |
+| **5. Derived Constructors** | Multiple Inheritance & Init Lists | `Gama(...) : Alpha(x), Beta(y)` | What is the constructor execution order in multiple inheritance? |
+| **6. Overloading Constructors** | Default, Parameterized, Copy, Default Args | `Sample(Sample &s)`, `char y = 's'` | Why must copy constructor parameter be a reference? |
+| **7. Dynamic Constructor** | Dynamic Memory (`new`) & String Ops | `name = new char[len + 1];` | What happens if you forget `+ 1` in `new char[len + 1]`? |
+| **8. Student Hierarchy** | Hierarchical Inheritance | `medical : public student`, `engineering : public student` | What is the difference between hierarchical and multiple inheritance? |
 
-**Study tip:** For each program, practise stating its aim, identifying its class and main function, and explaining the main concept in two or three sentences.
+---
