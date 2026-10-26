@@ -1,64 +1,64 @@
 #include <iostream>
 using namespace std;
 
-class Sample
+class sample
 {
     int i;
     char c;
-    double d;
+    float f;
 
 public:
-    Sample()
+    sample()
     {
         i = 0;
         c = '\0';
-        d = 0.0;
+        f = 0.0;
     }
 
-    Sample(int x, char y, double z)
+    sample(int x, char y, float z)
     {
         i = x;
         c = y;
-        d = z;
+        f = z;
     }
 
-    Sample(Sample &s)
+    sample(sample &s)
     {
         i = s.i;
         c = s.c;
-        d = s.d;
+        f = s.f;
     }
 
-    Sample(int x, double z, char y = 's')
+    sample(int x, float z, char y = 's')
     {
         i = x;
         c = y;
-        d = z;
+        f = z;
     }
 
     void display()
     {
         cout << "i= " << i << endl;
         cout << "c= " << c << endl;
-        cout << "f= " << d << endl;
+        cout << "f= " << f << endl;
     }
 };
 
 int main()
 {
-    Sample s1;
+    sample s1;
     cout << "S1:" << endl;
     s1.display();
 
-    Sample s2(10, 'a', 5.6);
+    sample s2(10, 'a', 5.6);
     cout << "S2:" << endl;
     s2.display();
 
-    Sample s3(30, 4.54);
+    sample s3(30, 4.54);
     cout << "S3:" << endl;
     s3.display();
 
-    Sample s4(s2);
+    sample s4(s2);
     cout << "S4:" << endl;
     s4.display();
 

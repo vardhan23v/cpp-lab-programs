@@ -530,64 +530,64 @@ n3: 30
 #include <iostream>
 using namespace std;
 
-class Sample
+class sample
 {
     int i;
     char c;
-    double d;
+    float f;
 
 public:
-    Sample()
+    sample()
     {
         i = 0;
         c = '\0';
-        d = 0.0;
+        f = 0.0;
     }
 
-    Sample(int x, char y, double z)
+    sample(int x, char y, float z)
     {
         i = x;
         c = y;
-        d = z;
+        f = z;
     }
 
-    Sample(Sample &s)
+    sample(sample &s)
     {
         i = s.i;
         c = s.c;
-        d = s.d;
+        f = s.f;
     }
 
-    Sample(int x, double z, char y = 's')
+    sample(int x, float z, char y = 's')
     {
         i = x;
         c = y;
-        d = z;
+        f = z;
     }
 
     void display()
     {
         cout << "i= " << i << endl;
         cout << "c= " << c << endl;
-        cout << "f= " << d << endl;
+        cout << "f= " << f << endl;
     }
 };
 
 int main()
 {
-    Sample s1;
+    sample s1;
     cout << "S1:" << endl;
     s1.display();
 
-    Sample s2(10, 'a', 5.6);
+    sample s2(10, 'a', 5.6);
     cout << "S2:" << endl;
     s2.display();
 
-    Sample s3(30, 4.54);
+    sample s3(30, 4.54);
     cout << "S3:" << endl;
     s3.display();
 
-    Sample s4(s2);
+    sample s4(s2);
     cout << "S4:" << endl;
     s4.display();
 
@@ -599,10 +599,10 @@ int main()
 1. **Concept of Constructor Overloading:**
    - Defining more than one constructor in the same class with different parameter types or counts.
 2. **Breakdown of the 4 Constructors:**
-   - **Default Constructor (`Sample()`):** Takes zero arguments; sets `i = 0`, `c = '\0'`, `d = 0.0`. Invoked by `Sample s1;`.
-   - **Parameterized Constructor (`Sample(int, char, double)`):** Explicitly initializes all three fields with passed arguments `10`, `'a'`, `5.6`. Invoked by `Sample s2(10, 'a', 5.6);`.
-   - **Default-Argument Constructor (`Sample(int x, double z, char y = 's')`):** The third parameter `y` has a default value `'s'`. When invoked with only two arguments `Sample s3(30, 4.54);`, `y` automatically defaults to `'s'`.
-   - **Copy Constructor (`Sample(Sample &s)`):** Accepts a reference to an existing object of the same class. Invoked by `Sample s4(s2);`, which clones all member values from `s2` into `s4`.
+   - **Default Constructor (`sample()`):** Takes zero arguments; sets `i = 0`, `c = '\0'`, `f = 0.0`. Invoked by `sample s1;`.
+   - **Parameterized Constructor (`sample(int, char, float)`):** Explicitly initializes all three fields with passed arguments `10`, `'a'`, `5.6`. Invoked by `sample s2(10, 'a', 5.6);`.
+   - **Default-Argument Constructor (`sample(int x, float z, char y = 's')`):** The third parameter `y` has a default value `'s'`. When invoked with only two arguments `sample s3(30, 4.54);`, `y` automatically defaults to `'s'`.
+   - **Copy Constructor (`sample(sample &s)`):** Accepts a reference to an existing object of the same class. Invoked by `sample s4(s2);`, which clones all member values from `s2` into `s4`.
 3. **Display:**
    - Notice that for `s1`, `c` is initialized to the null character `'\0'`, which prints as blank/non-printable on the terminal.
 
@@ -639,27 +639,30 @@ f= 5.6
 ### Source Code
 ```cpp
 #include <iostream>
-#include <string.h>
+#include <cstring>
 using namespace std;
 
-class String
+class STRNG
 {
     int length;
     char *name;
 
 public:
-    String()
+    STRNG()
     {
+        length = 0;
+        name = new char[1];
+        name[0] = '\0';
     }
 
-    String(char s[])
+    STRNG(const char s[])
     {
         length = strlen(s);
         name = new char[length + 1];
         strcpy(name, s);
     }
 
-    void join(String A, String B)
+    void join(STRNG A, STRNG B)
     {
         length = A.length + B.length;
         name = new char[length + 1];
@@ -676,8 +679,8 @@ public:
 
 int main()
 {
-    String s1("wel");
-    String s2("fare");
+    STRNG s1("wel");
+    STRNG s2("fare");
 
     cout << "s1:" << endl;
     s1.display();
@@ -685,25 +688,25 @@ int main()
     cout << "s2:" << endl;
     s2.display();
 
-    String s3;
+    STRNG s3;
     s3.join(s1, s2);
     cout << "s3:" << endl;
     s3.display();
 
-    String s4("come");
+    STRNG s4("come");
     cout << "s4:" << endl;
     s4.display();
 
-    String s5;
+    STRNG s5;
     s5.join(s1, s4);
     cout << "s5:" << endl;
     s5.display();
 
-    String s6("done");
+    STRNG s6("done");
     cout << "s6:" << endl;
     s6.display();
 
-    String s7;
+    STRNG s7;
     s7.join(s1, s6);
     cout << "s7:" << endl;
     s7.display();
@@ -721,7 +724,7 @@ int main()
    - `new char[length + 1]` reserves additional 1 byte specifically to store the null terminator `'\0'`.
    - `strcpy(name, s)` copies the string contents into the allocated buffer.
 3. **The `join()` Function:**
-   - Takes two `String` objects `A` and `B`.
+   - Takes two `STRNG` objects `A` and `B`.
    - Total length is computed: `A.length + B.length`.
    - Allocates new heap memory: `name = new char[length + 1]`.
    - Copies `A.name` using `strcpy` and appends `B.name` using `strcat`.
@@ -972,7 +975,7 @@ g++ -std=c++11 <filename>.cpp -o <executable_name>
 | **3. Time Addition** | Objects as Arguments & Modulus Math | `t3.compute(t1, t2)` with `/ 60` and `% 60` | What is pass-by-value vs pass-by-reference? |
 | **4. Employee** | Array of Objects | `Employee e[10];` in loops | How is memory allocated for an array of objects? |
 | **5. Derived Constructors** | Multiple Inheritance & Init Lists | `Gama(...) : Alpha(x), Beta(y)` | What is the constructor execution order in multiple inheritance? |
-| **6. Overloading Constructors** | Default, Parameterized, Copy, Default Args | `Sample(Sample &s)`, `char y = 's'` | Why must copy constructor parameter be a reference? |
+| **6. Overloading Constructors** | Default, Parameterized, Copy, Default Args | `sample(sample &s)`, `char y = 's'` | Why must copy constructor parameter be a reference? |
 | **7. Dynamic Constructor** | Dynamic Memory (`new`) & String Ops | `name = new char[len + 1];` | What happens if you forget `+ 1` in `new char[len + 1]`? |
 | **8. Student Hierarchy** | Hierarchical Inheritance | `medical : public student`, `engineering : public student` | What is the difference between hierarchical and multiple inheritance? |
 
