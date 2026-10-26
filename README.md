@@ -1,6 +1,6 @@
-# C++ Lab Programs 1–8: Comprehensive Code, Explanations & Expected Output
+# C++ Programming Lab – 8 Programs: Code, Explanations & Expected Output
 
-This README documents the eight standard C++ laboratory programs. Each program includes:
+This repository documents the eight standard C++ Programming Laboratory programs. Each program includes:
 - **Aim & Concept:** Core objective and OOP concept being demonstrated.
 - **Complete Formatted Source Code:** Clean, standard-compliant C++ code.
 - **Detailed Step-by-Step Explanation:** Line-by-line / section-by-section breakdown of logic, syntax, and execution flow.
@@ -11,14 +11,15 @@ This README documents the eight standard C++ laboratory programs. Each program i
 
 ## Table of Contents
 1. [Program 1: Bank Account (Class, Data Abstraction & Encapsulation)](#1-bank-account)
-2. [Program 2: Complex Number Addition (Function Overloading & Friend Functions)](#2-complex-number-function-overloading-and-friend-functions)
-3. [Program 3: Time Addition (Passing Objects as Arguments)](#3-time-addition-objects-as-arguments)
-4. [Program 4: Employee Database (Array of Objects)](#4-employee-array-of-objects)
-5. [Program 5: Constructors in Derived Classes (Multiple Inheritance)](#5-constructors-in-a-derived-class)
+2. [Program 2: Function Overloading and Friend Function (`COMPLEX` Addition)](#2-complex-number-function-overloading-and-friend-functions)
+3. [Program 3: Time Addition Using Objects as Arguments](#3-time-addition-objects-as-arguments)
+4. [Program 4: Array of Objects – Employee Details](#4-employee-array-of-objects)
+5. [Program 5: Multiple Inheritance (`Alpha`, `Beta`, `Gama` with Constructors)](#5-constructors-in-a-derived-class)
 6. [Program 6: Constructor Overloading (Default, Parameterized, Copy & Default Arguments)](#6-constructor-overloading)
-7. [Program 7: Dynamic Constructors & String Concatenation (`new`, `delete`, C-Strings)](#7-dynamic-constructor-and-string-concatenation)
-8. [Program 8: Student Classification (Hierarchical Inheritance)](#8-hierarchical-inheritance)
-9. [Quick Viva Cheat Sheet](#quick-viva-cheat-sheet)
+7. [Program 7: Dynamic Constructors and String Concatenation (`STRNG`)](#7-dynamic-constructor-and-string-concatenation)
+8. [Program 8: Hierarchical Inheritance (`STUDENT` → `MEDICAL`, `ENGINEERING`)](#8-hierarchical-inheritance)
+9. [How to Compile and Run](#how-to-compile-and-run)
+10. [Quick Viva Cheat Sheet](#quick-viva-cheat-sheet)
 
 ---
 
@@ -913,6 +914,55 @@ Branch: CSE
 
 ---
 
+## How to Compile and Run
+
+All programs can be compiled and executed using any standard C++ compiler, such as `g++` or `clang++`.
+
+### General Instructions
+```bash
+# Compile any program
+g++ -std=c++11 <filename>.cpp -o <executable_name>
+
+# Execute
+./<executable_name>
+```
+
+### Run Commands for Each Program
+1. **Program 1: Bank Account**
+   ```bash
+   g++ program_1_bank_account.cpp -o program_1 && ./program_1
+   ```
+2. **Program 2: Complex Number Addition (Friend Functions)**
+   ```bash
+   g++ program_2_complex_number_function_overloading_and_friend_functions.cpp -o program_2 && ./program_2
+   ```
+3. **Program 3: Time Addition (Objects as Arguments)**
+   ```bash
+   g++ program_3_time_addition_objects_as_arguments.cpp -o program_3 && ./program_3
+   ```
+4. **Program 4: Employee Database (Array of Objects)**
+   ```bash
+   g++ program_4_employee_array_of_objects.cpp -o program_4 && ./program_4
+   ```
+5. **Program 5: Constructors in Derived Classes (Multiple Inheritance)**
+   ```bash
+   g++ program_5_constructors_in_a_derived_class.cpp -o program_5 && ./program_5
+   ```
+6. **Program 6: Constructor Overloading**
+   ```bash
+   g++ program_6_constructor_overloading.cpp -o program_6 && ./program_6
+   ```
+7. **Program 7: Dynamic Constructor and String Concatenation**
+   ```bash
+   g++ program_7_dynamic_constructor_and_string_concatenation.cpp -o program_7 && ./program_7
+   ```
+8. **Program 8: Hierarchical Inheritance**
+   ```bash
+   g++ program_8_hierarchical_inheritance.cpp -o program_8 && ./program_8
+   ```
+
+---
+
 ## Quick Viva Cheat Sheet
 
 | Program | Core Concept | Key Syntax / Mechanism | Common Viva Question |
@@ -927,3 +977,5 @@ Branch: CSE
 | **8. Student Hierarchy** | Hierarchical Inheritance | `medical : public student`, `engineering : public student` | What is the difference between hierarchical and multiple inheritance? |
 
 ---
+
+
